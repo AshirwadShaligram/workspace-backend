@@ -1,5 +1,4 @@
-import express from "express";
-import { supabase } from "../db/db.config.js";
+const { supabase } = require("../db/db.config.js");
 
 const setCookies = (res, refreshToken) => {
   const isProduction = process.env.NODE_ENV === "production";
@@ -158,4 +157,4 @@ const refreshToken = async (req, res) => {
   }
 };
 
-export { register, login, logout, userProfile, refreshToken };
+module.exports = { register, login, logout, userProfile, refreshToken };

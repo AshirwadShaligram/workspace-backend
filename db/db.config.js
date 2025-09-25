@@ -1,8 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
-import { configDotenv } from "dotenv";
+const { createClient } = require("@supabase/supabase-js");
+const dotenv = require("dotenv");
 
 // Environment variable for supabase
-configDotenv();
+dotenv.config();
 
 // Connection to sipabse client
 const supabase = createClient(
@@ -10,4 +10,4 @@ const supabase = createClient(
   process.env.SUPABASE_API
 );
 
-export { supabase };
+module.exports = { supabase };

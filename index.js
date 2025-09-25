@@ -1,16 +1,21 @@
-import express from "express";
-import cors from "cors";
-import { configDotenv } from "dotenv";
-import helmet from "helmet";
-import cookieParser from "cookie-parser";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const socketIo = require("socket.io");
+const http = require("http");
 
 // Routes
-import authRoute from "./routes/authRoutes.js";
+const authRoute = require("./routes/authRoutes.js");
 
-configDotenv();
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
+
+const server = http.createServer(app);
+const io = socketIo(server);
 
 // Security Middlewares
 app.use(express.json());
@@ -24,6 +29,7 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.set("io", io);
 
 // Health Check
 app.get("/", (req, res) => {
@@ -42,7 +48,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     error: "Something went wrong!",
     message:
-      process.env.NODE_ENV === "developement"
+      process.env.NODE_ENV === "development"
         ? err.message
         : "Internal server error",
   });
@@ -54,6 +60,6 @@ app.all("/{*any}", (req, res) => {
 });
 
 // app listener
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on PORT:${PORT} `);
 });

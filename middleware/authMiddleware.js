@@ -1,4 +1,4 @@
-import { supabase } from "../db/db.config.js";
+const { supabase } = require("../db/db.config.js");
 
 const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -34,4 +34,4 @@ const authenticateToken = async (req, res, next) => {
   }
 };
 
-export { authenticateToken };
+module.exports = { authenticateToken };
